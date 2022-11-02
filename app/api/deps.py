@@ -5,7 +5,7 @@ from pydantic import ValidationError
 from sqlalchemy.orm import Session
 
 from app import repo, dao, models
-from app.security.security import ALGORITHM
+from app.core.security import ALGORITHM
 from app.config.setting import settings
 from app.db.connect import get_db
 

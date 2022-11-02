@@ -1,3 +1,4 @@
+import base64
 import logging
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -104,3 +105,11 @@ def verify_password_reset_token(token: str) -> Optional[str]:
         return decoded_token["email"]
     except jwt.JWTError:
         return None
+
+
+def decode_base64(data: bytes) -> bytes:
+    data_str = str(data)
+    if data_str.find('base64,') >= 0:
+        data_str = data_str.split(',')[1]
+    return base64.b64decode(data_str)
+

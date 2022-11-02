@@ -8,8 +8,8 @@ app = FastAPI(
     title=settings.PROJECT_NAME, openapi_url=f"{settings.API_V1}/openapi.json"
 )
 
+
 if settings.BACKEND_CORS_ORIGINS:
-    print('cors settings')
     app.add_middleware(
         CORSMiddleware,
         allow_origins=[str(origin) for origin in settings.BACKEND_CORS_ORIGINS],
