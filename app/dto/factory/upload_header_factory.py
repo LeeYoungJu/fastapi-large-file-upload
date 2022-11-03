@@ -1,7 +1,7 @@
 from fastapi import Request
 
 from app.consts import DATA_TYPE
-from app.dao import TabularUploadHeader
+from app.dto import TabularUploadHeader
 
 
 class UploadHeaderFactory:

@@ -4,7 +4,7 @@ from jose import jwt
 from pydantic import ValidationError
 from sqlalchemy.orm import Session
 
-from app import repo, dao, models
+from app import repo, dto, models
 from app.core.security import ALGORITHM
 from app.config.setting import settings
 from app.db.connect import get_db
@@ -21,7 +21,7 @@ def get_current_user(
         payload = jwt.decode(
             token, settings.SECRET_KEY, algorithms=[ALGORITHM]
         )
-        token_data = dao.TokenPayload(**payload)
+        token_data = dto.TokenPayload(**payload)
     except (jwt.JWTError, ValidationError):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,

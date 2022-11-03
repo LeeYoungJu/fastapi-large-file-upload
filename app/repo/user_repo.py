@@ -3,8 +3,8 @@ from typing import Optional
 from sqlalchemy.orm import Session
 
 from app.repo.base import RepoBase
-from app.models.user import User
-from app.dao.user import UserCreate, UserUpdate
+from app.models import User
+from app.dto import UserCreate, UserUpdate
 from app.core.security import get_password_hash
 
 

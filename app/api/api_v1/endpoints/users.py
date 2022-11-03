@@ -2,13 +2,13 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.db.connect import get_db
-from app import repo, dao
+from app import repo, dto
 from app.api import deps
 
 router = APIRouter()
 
 
-@router.get("/", response_model=list[dao.User])
+@router.get("/", response_model=list[dto.User])
 def read_users(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
@@ -21,11 +21,11 @@ def read_users(
     return users
 
 
-@router.post("/", response_model=dao.User)
+@router.post("/", response_model=dto.User)
 def create_user(
     *,
     db: Session = Depends(get_db),
-    user_in: dao.UserCreate,
+    user_in: dto.UserCreate,
 ):
     """
     Create new user.

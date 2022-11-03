@@ -5,7 +5,7 @@ from fastapi import APIRouter, Body, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
-from app import repo, models, dao
+from app import repo, models, dto
 from app.api import deps
 from app.core import security
 from app.config.setting import settings
@@ -18,7 +18,7 @@ from app.utils.common_utils import (
 router = APIRouter()
 
 
-@router.post("/login/access-token", response_model=dao.Token)
+@router.post("/login/access-token", response_model=dto.Token)
 def login_access_token(
     db: Session = Depends(deps.get_db), form_data: OAuth2PasswordRequestForm = Depends()
 ) -> Any:
@@ -41,7 +41,7 @@ def login_access_token(
     }
 
 
-@router.post("/login/test-token", response_model=dao.User)
+@router.post("/login/test-token", response_model=dto.User)
 def test_token(current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Test access token
@@ -49,7 +49,7 @@ def test_token(current_user: models.User = Depends(deps.get_current_user)) -> An
     return current_user
 
 
-@router.post("/password-recovery/{email}", response_model=dao.Msg)
+@router.post("/password-recovery/{email}", response_model=dto.Msg)
 def recover_password(email: str, db: Session = Depends(deps.get_db)) -> Any:
     """
     Password Recovery
@@ -68,7 +68,7 @@ def recover_password(email: str, db: Session = Depends(deps.get_db)) -> Any:
     return {"msg": "Password recovery email sent"}
 
 
-@router.post("/reset-password/", response_model=dao.Msg)
+@router.post("/reset-password/", response_model=dto.Msg)
 def reset_password(
     token: str = Body(...),
     new_password: str = Body(...),
