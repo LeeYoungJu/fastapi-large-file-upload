@@ -16,7 +16,7 @@ class DatasetRepo(RepoBase[Dataset, DatasetCreate, DatasetUpdate]):
             num_of_rows = obj_in.num_of_rows,
             num_of_cols = obj_in.num_of_cols,
             num_of_files = obj_in.num_of_files,
-            num_of_rows_in_a_file = obj_in.num_of_rows_in_a_file,
+            max_rows_in_a_file = obj_in.max_rows_in_a_file,
             col_names = obj_in.col_names,
             saved_folder_path = obj_in.saved_folder_path
         )

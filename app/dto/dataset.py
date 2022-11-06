@@ -9,7 +9,7 @@ class DatasetBase(BaseModel):
     num_of_rows: int
     num_of_cols: int
     num_of_files: int
-    num_of_rows_in_a_file: int
+    max_rows_in_a_file: int
     col_names: list[str]
     saved_folder_path: str
 

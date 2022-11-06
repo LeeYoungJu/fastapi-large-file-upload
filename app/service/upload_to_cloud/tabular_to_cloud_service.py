@@ -34,7 +34,7 @@ class TabularToCloudService:
                     continue
 
                 contents_in_file += line
-                if i % UPLOAD.NUM_OF_ROWS_IN_A_FILE == 0:
+                if i % UPLOAD.MAX_ROWS_IN_A_FILE == 0:
                     file_cnt += 1
                     self.__write_split_file(file_cnt, first_col_names, contents_in_file)
                     contents_in_file = b''
