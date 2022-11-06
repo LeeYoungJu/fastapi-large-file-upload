@@ -38,7 +38,7 @@ class UploadTabularService:
             if not os.path.isdir(self.tmp_path):
                 os.makedirs(self.tmp_path)
 
-        self.file_count = math.ceil((self.cur_row_idx+1) / UPLOAD.NUM_OF_ROWS_IN_A_FILE)
+        self.file_count = math.ceil((self.cur_row_idx+1) / UPLOAD.MAX_ROWS_IN_A_FILE)
 
         self.chunk = b''
 
@@ -52,7 +52,7 @@ class UploadTabularService:
             num_of_rows=self.cur_row_idx + 1,
             num_of_cols=len(first_col_name_list),
             num_of_files=self.file_count,
-            num_of_rows_in_a_file=UPLOAD.NUM_OF_ROWS_IN_A_FILE,
+            max_rows_in_a_file=UPLOAD.MAX_ROWS_IN_A_FILE,
             col_names=first_col_name_list,
             saved_folder_path=self.file_name_uuid
         )
@@ -80,12 +80,12 @@ class UploadTabularService:
     def __write_by_file_count(self, decoded_chunk: bytes, start: int, end: int) -> None:
         origin_line = 0
         for i in range(start, end):
-            required_new_line = (UPLOAD.NUM_OF_ROWS_IN_A_FILE * i) - self.cur_row_idx
+            required_new_line = (UPLOAD.MAX_ROWS_IN_A_FILE * i) - self.cur_row_idx
             new_lines = decoded_chunk.split(b'\n')[origin_line:required_new_line]
             origin_line = required_new_line
 
             file_name = f'{self.file_name_only}{i}.{self.ext}'
-            if (self.cur_row_idx + origin_line) % UPLOAD.NUM_OF_ROWS_IN_A_FILE == 0:
+            if (self.cur_row_idx + origin_line) % UPLOAD.MAX_ROWS_IN_A_FILE == 0:
                 prev_file_path = os.path.join(self.tmp_path, f'{self.file_name_only}{i - 1}.{self.ext}')
                 self.__upload_completed_file_to_cloud(prev_file_path)
 
@@ -122,7 +122,7 @@ class UploadTabularService:
 
         num_of_rows_in_chunk = decoded_chunk.count(b'\n')
         sum_of_rows = self.cur_row_idx + num_of_rows_in_chunk
-        new_file_count = math.ceil((sum_of_rows+1) / UPLOAD.NUM_OF_ROWS_IN_A_FILE)
+        new_file_count = math.ceil((sum_of_rows+1) / UPLOAD.MAX_ROWS_IN_A_FILE)
 
         self.__write_by_file_count(decoded_chunk, self.file_count, new_file_count+1)
 

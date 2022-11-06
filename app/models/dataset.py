@@ -12,6 +12,6 @@ class Dataset(Base):
     num_of_rows = Column(Integer)
     num_of_cols = Column(Integer)
     num_of_files = Column(Integer)
-    num_of_rows_in_a_file = Column(Integer)
+    max_rows_in_a_file = Column(Integer)
     col_names = Column(JSON)
     saved_folder_path = Column(String(500))
