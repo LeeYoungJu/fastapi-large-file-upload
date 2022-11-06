@@ -20,4 +20,4 @@ class UploadByMultipartService:
         with open(file_path, "wb") as fp:
             fp.write(contents)
 
-        return file_path
+        return self.tmp_path

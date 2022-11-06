@@ -81,12 +81,13 @@ class UploadTabularService:
         origin_line = 0
         for i in range(start, end):
             required_new_line = (UPLOAD.NUM_OF_ROWS_IN_A_FILE * i) - self.cur_row_idx
+            print(f'{origin_line}:{required_new_line}')
             new_lines = decoded_chunk.split(b'\n')[origin_line:required_new_line]
             origin_line = required_new_line
 
             file_name = f'{self.file_name_only}{i}.{self.ext}'
             if (self.cur_row_idx + origin_line) % UPLOAD.NUM_OF_ROWS_IN_A_FILE == 0:
-                self.__insert_col_names(new_lines, self.first_col_names.encode())
+                # self.__insert_col_names(new_lines, self.first_col_names.encode())
                 prev_file_path = os.path.join(self.tmp_path, f'{self.file_name_only}{i - 1}.{self.ext}')
                 self.__upload_completed_file_to_cloud(prev_file_path)
 
@@ -94,7 +95,12 @@ class UploadTabularService:
 
     def __write_file_local(self, file_name: str, lines: list[bytes]) -> None:
         upload_path = os.path.join(self.tmp_path, file_name)
+        is_first = False
+        if not os.path.isfile(upload_path):
+            is_first = True
         f = open(upload_path, 'ab')
+        if is_first:
+            f.write(self.first_col_names.encode() + b'\n')
         f.write(b'\n'.join(lines))
         f.close()
 
