@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  data-server-db:
+    image: "mariadb"
+    container_name: "data-server-db"
+    ports:
+      - "4401:3306"
+    volumes:
+      - "db-data:/var/lib/mysql"
+    environment:
+      MARIADB_USER: "demo"
+      MARIADB_PASSWORD: "yjLee2752!@#"
+      MARIADB_ROOT_PASSWORD: "yjLee2752!@#"
+
+  backend:
+    # image: "dmlqhwmd/ais2-data-server:0.4"
+    container_name: "data-server-be"
+    build:
+      context: .
+      dockerfile: ./backend.dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - data-server-db
+volumes:
+  db-data:
